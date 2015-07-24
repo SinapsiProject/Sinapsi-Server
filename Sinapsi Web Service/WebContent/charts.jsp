@@ -224,7 +224,7 @@
 				  }
 				%>
 			</div>
-			pre-alpha 1.0 version © 2015 Sinapsi
+			Alpha 1.0 Version © 2015 Sinapsi
 		</div>
 	</div>
 	<script src="assets/js/jquery-1.10.2.js"></script>

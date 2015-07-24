@@ -68,6 +68,8 @@
 
       // Create particles
       var numParticles = Math.round((canvas.width * canvas.height) / options.density);
+    
+      numParticles = numParticles / 2;
       for (var i = 0; i < numParticles; i++) {
         var p = new Particle();
         p.setStackPos(i);

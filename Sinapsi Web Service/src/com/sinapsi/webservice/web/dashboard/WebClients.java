@@ -3,6 +3,8 @@ package com.sinapsi.webservice.web.dashboard;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import com.sinapsi.model.UserInterface;
 import com.sinapsi.webservice.db.UserDBManager;
 
@@ -19,7 +22,27 @@ import com.sinapsi.webservice.db.UserDBManager;
 @WebServlet("/web_clients")
 public class WebClients extends HttpServlet {
    private static final long serialVersionUID = 1L;
-
+   private UserDBManager userManager;
+   private List<UserInterface> administrators;
+   private List<UserInterface> users;
+   private List<UserInterface> pendingUsers;
+   
+   /**
+    * Initialize static data
+    */
+   @Override
+   public void init(ServletConfig config) throws ServletException {
+	   userManager = (UserDBManager) getServletContext().getAttribute("users_db");
+	   
+	   try {
+		   administrators = userManager.getAdmins();
+		   users = userManager.getUsers();
+		   pendingUsers = userManager.getPendingUsers();
+		} catch (SQLException e) {
+			e.printStackTrace();
+	   }
+   }
+   
    /**
     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
     *      response)
@@ -34,8 +57,7 @@ public class WebClients extends HttpServlet {
     *      response)
     */
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-      UserDBManager userManager = (UserDBManager) getServletContext().getAttribute("users_db");
-      HttpSession session = request.getSession();
+	  HttpSession session = request.getSession();
 
       String action = request.getParameter("action");
       String emailUser = request.getParameter("email");
@@ -84,10 +106,7 @@ public class WebClients extends HttpServlet {
                      break;
                }
             }
-            List<UserInterface> administrators = userManager.getAdmins();
-            List<UserInterface> users = userManager.getUsers();
-            List<UserInterface> pendingUsers = userManager.getPendingUsers();
-
+            
             session.setAttribute("role", "admin");
             session.setAttribute("admins", administrators);
             session.setAttribute("users", users);

@@ -75,13 +75,15 @@ html, body {
 }
 
 body {
-  /*background: #16a085;*/
-  background: #256581;
+  background: rgb(33, 52, 82);
+  background-image: url(../img/bg.jpg);
+  background-repeat: no-repeat;
   font-family: 'Lato', sans-serif;
   color: #fff;
   line-height: 1.3;
   -webkit-font-smoothing: antialiased;
 }
+
 a {
     text-decoration: none;
     color: aliceblue;
@@ -101,10 +103,11 @@ a {
   width: 100%;
   text-align: center;
 }
+
 h1 {
   font-size: 225px;
   font-weight: 900;
-  letter-spacing: 0.015em;
+  
   z-index: 1;
 }
 h1::after {
@@ -115,17 +118,6 @@ h1::after {
   height: 3px;
   margin: 15px auto;
   line-height: 0.4;
-}
-h1.success:after {
-     background-color: #fff;
-}
-h1.error:after {
-    background: linear-gradient(93deg, #d92d2d, #f7f7f7, #ce2d2d);
-    background-size: 600% 600%;
-
-    -webkit-animation: AnimationName 2s ease infinite;
-    -moz-animation: AnimationName 2s ease infinite;
-    animation: AnimationName 2s ease infinite;
 }
 
 @-webkit-keyframes AnimationName {
@@ -201,13 +193,38 @@ p {
   text-align: center;
 }
 
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    rgba(255, 255, 255, 0.66);
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    rgba(255, 255, 255, 0.66);
+   opacity:  1;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    rgba(255, 255, 255, 0.66);
+   opacity:  1;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+   color:    rgba(255, 255, 255, 0.66);
+}
+
 #cog {
     position: absolute;
     z-index: -1;
     display: grid;
-    opacity: 0.55;
+    opacity: 0.47;
     -webkit-animation : rotation 19s infinite linear;
-    -moz-transform: rotation 19s infinite linear;
+    -moz-animation: rotation1 19s infinite linear;
+}
+
+@-webkit-keyframes rotation {
+    0%   {-webkit-transform: rotate(0deg);}
+    100% {-webkit-transform: rotate(359deg);}
+}
+
+@keyframes rotation1 {
+    0%   {-moz-transform:rotate(0deg);}
+    100% {-moz-transform:rotate(359deg);}
 }
 
 #cog_error {
@@ -215,17 +232,23 @@ p {
     z-index: -1;
     display: grid;
     opacity: 0.4;
+
+    -webkit-animation: out1 1s infinite;
+    -moz-animation: out 1s infinite;
+
 }
 
-@-webkit-keyframes rotation {
-    from {-webkit-transform: rotate(0deg);
-          -moz-transform:rotate(0deg);
-          -ms-transform:rotate(0deg);
-           transform:rotate(0deg); }
-    to   {-webkit-transform: rotate(359deg);
-          -moz-transform:rotate(359deg);
-          -ms-transform:rotate(359deg);
-          transform:rotate(359deg)}
+@-webkit-keyframes out1 {
+    0%   { -webkit-transform: rotate(0deg); }
+    80% { -webkit-transform: rotate(75deg); }
+    100% { -webkit-transform: rotate(0deg); }
+}
+
+
+@keyframes out {
+    0%   { -moz-transform: rotate(0deg); }
+    80% { -moz-transform: rotate(75deg); }
+    100% { -moz-transform: rotate(0deg); }
 }
 
 .container h1 {
@@ -236,11 +259,13 @@ p {
           transition-timing-function: ease-in-put;
   font-weight: 200;
 }
+
 form {
   padding: 50px 0;
   position: relative;
   z-index: 2;
 }
+
 form input {
   appearance: none;
   outline: 0;
