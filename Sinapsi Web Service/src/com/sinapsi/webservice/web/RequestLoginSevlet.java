@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.PublicKey;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,7 +31,20 @@ import com.sinapsi.webservice.utility.BodyReader;
 @WebServlet("/request_login")
 public class RequestLoginSevlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
+    private KeysDBManager keysManager;
+    private UserDBManager userManager;
+    
+    /**
+     * Initialize static data
+     */
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+    	super.init(config);
+    	keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
+    	userManager = (UserDBManager) getServletContext().getAttribute("users_db");
+    
+    }
+    
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
@@ -47,9 +61,7 @@ public class RequestLoginSevlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("application/json");
         Gson gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
-        KeysDBManager keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
-        UserDBManager userManager = (UserDBManager) getServletContext().getAttribute("users_db");
-    
+        
         // generate local public/private keys
         KeyGenerator generator = new KeyGenerator(1024, "RSA");
 

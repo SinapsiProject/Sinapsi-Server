@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -29,15 +30,25 @@ import com.sinapsi.webservice.websocket.Server;
 @WebServlet("/dashboard")
 public class DashboardServlet extends HttpServlet {
    private static final long serialVersionUID = 1L;
+   private UserDBManager userManager;
+   private Server wsserver;
 
+   /**
+    * Initialize static data
+    */
+   @Override
+   public void init(ServletConfig config) throws ServletException {
+	   super.init(config);
+	   userManager = (UserDBManager) getServletContext().getAttribute("users_db");
+	   wsserver = (Server) getServletContext().getAttribute("wsserver");
+   }
+   
    /**
     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
     *      response)
     */
    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       HttpSession session = request.getSession();
-      // number of registered users
-      UserDBManager userManager = (UserDBManager) getServletContext().getAttribute("users_db");
 
       String email = null;
       Cookie[] cookies = request.getCookies();
@@ -64,7 +75,6 @@ public class DashboardServlet extends HttpServlet {
             session.setAttribute("role", "user");
             
             // clients connected
-            Server wsserver = (Server) getServletContext().getAttribute("wsserver");
             session.setAttribute("clients_connected", Integer.toString(wsserver.getDevicesOnline(email).size()));
          }
             

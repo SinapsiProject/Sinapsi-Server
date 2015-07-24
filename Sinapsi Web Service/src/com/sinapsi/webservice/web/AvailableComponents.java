@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,26 +35,39 @@ import com.sinapsi.webservice.utility.BodyReader;
 @WebServlet("/available_components")
 public class AvailableComponents extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	private DeviceDBManager deviceManager;
+	private EngineDBManager engineManager;
+	private KeysDBManager keysManager;
+	private Encrypt encrypter;
+	private Decrypt decrypter;
+	private Gson gson;
+	
+	/**
+	 * Initialize static data
+	 */
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		deviceManager = (DeviceDBManager) getServletContext().getAttribute("devices_db");
+		engineManager = (EngineDBManager) getServletContext().getAttribute("engines_db");
+		keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
+		gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
+	}
+	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("application/json");
 	    PrintWriter out = response.getWriter();
-	    DeviceDBManager deviceManager = (DeviceDBManager) getServletContext().getAttribute("devices_db");
-	    EngineDBManager engineManager = (EngineDBManager) getServletContext().getAttribute("engines_db");
-	    KeysDBManager keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
+	   
 	    Gson gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
-	    
-	    
 	        
 	    String email = request.getParameter("email");
 	    String name = request.getParameter("name");
 	    String model = request.getParameter("model");
 	    
 	    try {
-	        Encrypt encrypter;
             if(WebServiceConsts.ENCRYPTED_CONNECTION)
                 encrypter = new Encrypt(keysManager.getUserPublicKey(email, name, model),
                                         keysManager.getServerUncryptedSessionKey(email, name, model));
@@ -101,10 +115,6 @@ public class AvailableComponents extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	    response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        DeviceDBManager deviceManager = (DeviceDBManager) getServletContext().getAttribute("devices_db");
-        EngineDBManager engineManager = (EngineDBManager) getServletContext().getAttribute("engines_db");
-        KeysDBManager keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
-        Gson gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
         
         String email = request.getParameter("email");
         String name = request.getParameter("name");
@@ -115,13 +125,12 @@ public class AvailableComponents extends HttpServlet {
         String cryptedString = gson.fromJson(cryptedJsonbody, new TypeToken<String>() {}.getType());
         
         try {
-            Encrypt encrypter;
             if(WebServiceConsts.ENCRYPTED_CONNECTION)
                 encrypter = new Encrypt(keysManager.getUserPublicKey(email, name, model),
                                         keysManager.getServerUncryptedSessionKey(email, name, model));            
             
             // create the decrypter
-            Decrypt decrypter;
+            
             if(WebServiceConsts.ENCRYPTED_CONNECTION)
                 decrypter = new Decrypt(keysManager.getServerPrivateKey(email, name, model), 
                                         keysManager.getUserSessionKey(email, name, model));

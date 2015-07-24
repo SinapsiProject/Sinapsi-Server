@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.crypto.SecretKey;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +30,19 @@ import com.sinapsi.webservice.utility.BodyReader;
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private Gson gson;
+    private UserDBManager userManager;
+    private KeysDBManager keysManager;
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+    	super.init(config);
+    	gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
+    	
+    	userManager = (UserDBManager) getServletContext().getAttribute("users_db");
+    	keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
 
+    }
     
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -46,12 +59,7 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        Gson gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
         
-        // objects that manipulate data in the db
-        UserDBManager userManager = (UserDBManager) getServletContext().getAttribute("users_db");
-        KeysDBManager keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
-
         try {
             String email = request.getParameter("email");
             String deviceName = request.getParameter("name");

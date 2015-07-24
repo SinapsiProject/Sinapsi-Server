@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,7 +32,24 @@ import com.sinapsi.webservice.utility.BodyReader;
 @WebServlet("/devices")
 public class DeviceServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-
+    private DeviceDBManager deviceManager;
+    private KeysDBManager keysManager;
+    private Encrypt encrypter;
+    private Decrypt decrypter;;
+    private Gson gson;
+    
+    /**
+     * Initialize static data
+     */
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+    	super.init(config);
+    	deviceManager = (DeviceDBManager) getServletContext().getAttribute("devices_db");
+    	keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
+    	
+    	gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
+        
+    }
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      *      response)
@@ -39,9 +57,7 @@ public class DeviceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        DeviceDBManager deviceManager = (DeviceDBManager) getServletContext().getAttribute("devices_db");
         String action = request.getParameter("action");
-        Gson gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
 
         // get connected device request
         if (action.equals("get")) {
@@ -50,10 +66,6 @@ public class DeviceServlet extends HttpServlet {
             String deviceModel = request.getParameter("model");
 
             try {
-                // create the keys manger and the encrypter
-                KeysDBManager keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
-                
-                Encrypt encrypter;
                 if(WebServiceConsts.ENCRYPTED_CONNECTION)
                     encrypter = new Encrypt(keysManager.getUserPublicKey(email, deviceName, deviceModel),
                                             keysManager.getServerUncryptedSessionKey(email, deviceName, deviceModel));
@@ -94,10 +106,7 @@ public class DeviceServlet extends HttpServlet {
         response.setContentType("application/json");
         String action = request.getParameter("action");
         PrintWriter out = response.getWriter();
-        DeviceDBManager deviceManager = (DeviceDBManager) getServletContext().getAttribute("devices_db");
-        KeysDBManager keysManager = (KeysDBManager) getServletContext().getAttribute("keys_db");
-        Gson gson = WebServiceGsonManager.defaultSinapsiGsonBuilder().create();
-
+        
         // add device request
         if (action.equals("add")) {
             // get the parameter from the request
@@ -112,13 +121,10 @@ public class DeviceServlet extends HttpServlet {
             String cryptedString = gson.fromJson(cryptedJsonbody, new TypeToken<String>() {}.getType());
             
             try {
-                // create the encrypter
-            	Encrypt encrypter;
             	if(WebServiceConsts.ENCRYPTED_CONNECTION)
             		encrypter = new Encrypt(keysManager.getUserPublicKey(email, name, model),
                 							keysManager.getServerUncryptedSessionKey(email, name, model));
-                // create the decrypter
-            	Decrypt decrypter;
+            	
             	if(WebServiceConsts.ENCRYPTED_CONNECTION)
             		decrypter = new Decrypt(keysManager.getServerPrivateKey(email, name, model), 
                                             keysManager.getUserSessionKey(email, name, model));
