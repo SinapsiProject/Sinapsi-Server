@@ -30,7 +30,19 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    <script>
+      document.addEventListener('click', function(event) {
+      var target = event.target;
+      if (target.tagName.toLowerCase() == 'a') {
+          var port = target.getAttribute('href').match(/^:(\d+)(.*)/);
+          if (port)
+          {
+             target.href = port[2];
+             target.port = port[1];
+          }
+      }
+    }, false);
+    </script>
 </head>
 
 <body id="page-top" class="index">
@@ -51,9 +63,9 @@
 
 
                     <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">Blog</a></li>
+                    <li><a href=":80/sinapsi/blog">Blog</a></li>
                     <li><a href="#">Forum</a></li>
-                    <li><a href="login.html">Login</a></li>
+                    <li><a href=":8181/login.html">Login</a></li>
                     </ul>
                   </div>
               </div>
