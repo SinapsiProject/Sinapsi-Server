@@ -1,12 +1,12 @@
 package com.sinapsi.webservice.engine;
 
 import com.google.gson.Gson;
-import com.sinapsi.engine.ComponentFactory;
+import com.sinapsi.engine.component.ComponentFactory;
 import com.sinapsi.engine.MacroEngine;
 import com.sinapsi.engine.SinapsiVersions;
-import com.sinapsi.engine.VariableManager;
-import com.sinapsi.engine.components.ActionLog;
-import com.sinapsi.engine.components.ActionSetVariable;
+import com.sinapsi.engine.variables.VariableManager;
+import com.sinapsi.engine.modules.core.ActionLog;
+import com.sinapsi.engine.modules.core.ActionSetVariable;
 import com.sinapsi.engine.execution.ExecutionInterface;
 import com.sinapsi.engine.execution.RemoteExecutionDescriptor;
 import com.sinapsi.engine.execution.WebExecutionInterface;
@@ -138,7 +138,7 @@ public class WebServiceEngine {
                     globalVar, 
                     sinapsiLog);
         
-        WebServiceActivationManager activationManager = new WebServiceActivationManager(executionInterface);
+        WebServiceActivationManager activationManager = new WebServiceActivationManager();
 
         // add list of trigger and actions
         MacroEngine macroEngine = new MacroEngine(

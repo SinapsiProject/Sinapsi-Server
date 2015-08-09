@@ -1,8 +1,7 @@
 package com.sinapsi.webservice.engine;
 
-import com.sinapsi.engine.ActivationManager;
-import com.sinapsi.engine.Trigger;
-import com.sinapsi.engine.execution.ExecutionInterface;
+import com.sinapsi.engine.activation.ActivationManager;
+import com.sinapsi.engine.component.Trigger;
 
 /**
  * Web service activation manager of Sinapsi
@@ -10,10 +9,6 @@ import com.sinapsi.engine.execution.ExecutionInterface;
  *
  */
 public class WebServiceActivationManager extends ActivationManager {
-
-    public WebServiceActivationManager(ExecutionInterface defaultExecutionInterface) {
-        super(defaultExecutionInterface);
-    }
     
     @Override
     public void addToNotifyList(Trigger t) {
@@ -25,7 +20,7 @@ public class WebServiceActivationManager extends ActivationManager {
     @Override
     public void removeFromNotifyList(Trigger t) {
         super.removeFromNotifyList(t);
-        //il Trigger t da questo momento non deve essere più attivato
+        //il Trigger t da questo momento non deve essere piu' attivato
     }
 
 }

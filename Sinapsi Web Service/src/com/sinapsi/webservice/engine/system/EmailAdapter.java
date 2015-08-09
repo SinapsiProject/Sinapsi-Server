@@ -1,8 +1,11 @@
 package com.sinapsi.webservice.engine.system;
 
+import com.sinapsi.engine.system.ComponentSystemAdapter;
 import com.sinapsi.model.UserInterface;
+
 import java.util.Properties;
 import java.util.ResourceBundle;
+
 import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -20,19 +23,22 @@ import javax.mail.internet.MimeMultipart;
  * @author Ayoub
  *
  */
-public class EmailAdapter {
+public class EmailAdapter implements ComponentSystemAdapter{
     private UserInterface user;
-    private final String username;
-    private final String password;
+    private String username;
+    private String password;
     
     public static final String SERVICE_EMAIL = "SERVICE_EMAIL";
 
-    public EmailAdapter(UserInterface u) {
-        this.user = u;
+    @Override
+	public void init(Object... requiredPlatformDependantObjects) {
+		UserInterface u = (UserInterface) requiredPlatformDependantObjects[0];
+		this.user = u;
         ResourceBundle bundle = ResourceBundle.getBundle("email");
         username = bundle.getString("email.user");
         password = bundle.getString("email.password");
-    }
+		
+	}
 
     /**
      * Send email
@@ -86,4 +92,6 @@ public class EmailAdapter {
             e.printStackTrace();
         }
     }
+
+	
 }

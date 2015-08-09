@@ -3,7 +3,7 @@ package com.sinapsi.webservice.engine.components;
 import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.sinapsi.engine.Action;
+import com.sinapsi.engine.component.Action;
 import com.sinapsi.engine.SinapsiVersions;
 import com.sinapsi.engine.execution.ExecutionInterface;
 import com.sinapsi.engine.parameters.FormalParamBuilder;

@@ -5,9 +5,9 @@ import java.util.HashMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.sinapsi.engine.Event;
+import com.sinapsi.engine.activation.Event;
 import com.sinapsi.engine.SinapsiVersions;
-import com.sinapsi.engine.Trigger;
+import com.sinapsi.engine.component.Trigger;
 import com.sinapsi.engine.execution.ExecutionInterface;
 import com.sinapsi.engine.parameters.FormalParamBuilder;
 

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.sinapsi.engine.Action;
+import com.sinapsi.engine.component.Action;
 import com.sinapsi.model.MacroInterface;
 import com.sinapsi.model.UserInterface;
 import com.sinapsi.webservice.db.DeviceDBManager;
