@@ -13,7 +13,11 @@ import com.sinapsi.engine.execution.WebExecutionInterface;
 import com.sinapsi.engine.log.LogMessage;
 import com.sinapsi.engine.log.SinapsiLog;
 import com.sinapsi.engine.log.SystemLogInterface;
+import com.sinapsi.engine.requirements.DefaultRequirementResolver;
+import com.sinapsi.engine.system.PlatformDependantObjectProvider;
 import com.sinapsi.engine.system.SystemFacade;
+import com.sinapsi.engine.system.PlatformDependantObjectProvider.ObjectKey;
+import com.sinapsi.engine.system.PlatformDependantObjectProvider.ObjectNotAvailableException;
 import com.sinapsi.model.DeviceInterface;
 import com.sinapsi.model.FactoryModelInterface;
 import com.sinapsi.model.MacroInterface;
@@ -27,6 +31,7 @@ import com.sinapsi.webservice.engine.system.EmailAdapter;
 import com.sinapsi.webservice.websocket.Server;
 import com.sinapsi.webshared.wsproto.SinapsiMessageTypes;
 import com.sinapsi.webshared.wsproto.WebSocketMessage;
+
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -100,16 +105,7 @@ public class WebServiceEngine {
      * @param user user saved in the db
      * @return macro engine
      */
-    private MacroEngine loadEngine(UserInterface user){
-        SystemFacade systemFacade = new SystemFacade();
-        
-        //HERE ARE ALL THE ADPTERS
-        systemFacade.addSystemService(EmailAdapter.SERVICE_EMAIL, new EmailAdapter(user));
-        
-        // at engine start up, det dynamcly the triggers requirments
-        // systemFacade.setRequirementSpec(key, value);
-        
-        DeviceInterface webServiceDevice = getWebServiceDevice(user);
+    private MacroEngine loadEngine(final UserInterface user){
 
         //Interfaces called when the user want to continue macro in other device
         WebExecutionInterface webExecutionInterface = new WebExecutionInterface() {
@@ -129,27 +125,41 @@ public class WebServiceEngine {
             }
         };
 
-        VariableManager globalVar = new VariableManager();
         
-        ExecutionInterface executionInterface = new ExecutionInterface(
-                    systemFacade, 
-                    webServiceDevice, 
-                    webExecutionInterface, 
-                    globalVar, 
-                    sinapsiLog);
-        
-        WebServiceActivationManager activationManager = new WebServiceActivationManager();
 
         // add list of trigger and actions
-        MacroEngine macroEngine = new MacroEngine(
+        /*MacroEngine macroEngine = new MacroEngine(
                 webServiceDevice,
                 activationManager,
                 sinapsiLog,
                 ActionLog.class,
                 ActionSendEmail.class,
                 ActionSetVariable.class,
-                TriggerEmailReceived.class);
-
+                TriggerEmailReceived.class);*/
+        
+        MacroEngine macroEngine = new MacroEngine(
+        		getWebServiceDevice(user),
+        		new WebServiceActivationManager(),
+        		webExecutionInterface,
+        		null,
+				new PlatformDependantObjectProvider() {
+					
+					@Override
+					public Object getObject(ObjectKey key) throws ObjectNotAvailableException {
+						switch (key) {
+						case LOGGED_USER:
+							return user;
+						default:
+							throw new ObjectNotAvailableException(key.name());
+						}
+						
+					}
+				},
+				sinapsiLog,
+				DefaultWebServiceModules.ANTARES_WEB_SERVICE_MODULE
+		);
+        
+     
         return macroEngine;
     }
 
