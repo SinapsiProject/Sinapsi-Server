@@ -135,7 +135,7 @@
                       <tr>
                         <td><%=entry.getKey().getModel()%></td>
                         <%
-                          if(entry.getKey().getType().equals("Android")) { 
+                          if(entry.getKey().getPlatformType().equals("Android")) { 
                         %>
                         <td><i class="fa fa-tablet"></i></td>
                           <%
@@ -150,7 +150,7 @@
                             }
                           %>
                         <%
-                          } if(entry.getKey().getType().equals("PC Linux")) {
+                          } if(entry.getKey().getPlatformType().equals("PC Linux")) {
                         %>
                         <td><i class="fa fa-linux"></i></td>
                           <%
@@ -165,7 +165,7 @@
                             }
                           %>
                         <%
-                          } if(entry.getKey().getType().equals("Web")) {
+                          } if(entry.getKey().getPlatformType().equals("Web")) {
                         %>
                         <td><i class="fa fa-cloud"></i></td>
                         <td><i class="fa fa-check"></i></td>

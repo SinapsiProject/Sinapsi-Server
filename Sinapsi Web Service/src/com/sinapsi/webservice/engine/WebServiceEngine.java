@@ -5,6 +5,7 @@ import com.sinapsi.engine.component.ComponentFactory;
 import com.sinapsi.engine.MacroEngine;
 import com.sinapsi.engine.SinapsiVersions;
 import com.sinapsi.engine.variables.VariableManager;
+import com.sinapsi.engine.modules.DefaultCoreModules;
 import com.sinapsi.engine.modules.core.ActionLog;
 import com.sinapsi.engine.modules.core.ActionSetVariable;
 import com.sinapsi.engine.execution.ExecutionInterface;
@@ -141,7 +142,13 @@ public class WebServiceEngine {
         		getWebServiceDevice(user),
         		new WebServiceActivationManager(),
         		webExecutionInterface,
-        		null,
+        		new DefaultRequirementResolver() {
+					
+					@Override
+					public void resolveRequirements(SystemFacade sf) {
+						sf.setRequirementSpec(DefaultCoreModules.REQUIREMENT_RESTARTABLE_MACRO_ENGINE, false);
+					}
+				},
 				new PlatformDependantObjectProvider() {
 					
 					@Override
@@ -156,6 +163,8 @@ public class WebServiceEngine {
 					}
 				},
 				sinapsiLog,
+				
+				DefaultCoreModules.ANTARES_CORE_MODULE,
 				DefaultWebServiceModules.ANTARES_WEB_SERVICE_MODULE
 		);
         

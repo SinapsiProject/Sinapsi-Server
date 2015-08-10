@@ -1,6 +1,6 @@
 <%@ page import="java.util.List"%>
 <%@ page import="com.sinapsi.model.MacroInterface"%>
-<%@ page import="com.sinapsi.engine.Action"%>
+<%@ page import="com.sinapsi.engine.component.Action"%>
 <%@ page import="java.util.Map"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
