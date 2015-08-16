@@ -72,15 +72,15 @@ public class DashboardServlet extends HttpServlet {
             return;
          }
          
-         if (user.getRole().equals("user")) {
+        /* if (user.getRole().equals("user")) {
             session.setAttribute("role", "user");
             
             // clients connected
             session.setAttribute("clients_connected", Integer.toString(wsserver.getDevicesOnline(email).size()));
-         }
+         }*/
             
 
-         if (user.getRole().equals("admin")) {
+         if (user.getRole().equals("admin") || user.getRole().equals("user")) {
             session.setAttribute("role", "admin");
             
             // clients connected

@@ -3,160 +3,227 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Sinapsi | Web</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.4 -->
+      <link href="assets/css/datepicker.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons 2.0.0 -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="plugins/morris/morris.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Sinapsi</title>
-<link href="assets/css/bootstrap.css" rel="stylesheet" />
-<link href="assets/css/font-awesome.css" rel="stylesheet" />
-<link href="assets/css/datepicker.css" rel="stylesheet" type="text/css" />
-<script src="assets/js/jquery-1.7.1.min.js"></script>
-<script src="assets/js/jquery-ui-1.8.18.custom.min.js"></script>
-<link href="assets/css/custom-styles.css" rel="stylesheet" />
-<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700'
-	rel='stylesheet' type='text/css' />
-</head>
-<%
-  String role = (String) session.getAttribute("role");
-  if(role == "admin") {
-%>
-<script type="text/javascript">
-	function scrollDown() {
-		$(document).scrollTop($(document).height());
-	}
-	window.onload = scrollDown;
-</script>
-<%
-  }
-%>
-<body>
-	<%
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="skin-blue sidebar-mini">
+    <%
 	  String email = null;
-	   Cookie[] cookies = request.getCookies();
-	   if(cookies != null) {
-	      for(Cookie cookie : cookies) {
-	         if(cookie.getName().equals("user")) 
-	            email = cookie.getValue();
-	      }
-	   }
-	   if(email == null) 
-	     response.sendRedirect("login.html");
-	 
-	   @SuppressWarnings("unchecked")
-	   Pair<BufferedReader, String> log = (Pair<BufferedReader, String>) session.getAttribute("log_buffer");
-	   session.removeAttribute("log_buffer");
+	  Cookie[] cookies = request.getCookies();
+	  if (cookies != null) {
+	    for (Cookie cookie : cookies) {
+	      if (cookie.getName().equals("user"))
+	        email = cookie.getValue();
+	    }
+	  }
+	  if (email == null)
+	    response.sendRedirect("login.html");
+	  
+	  String role = (String) session.getAttribute("role");
+      @SuppressWarnings("unchecked")
+      Pair<BufferedReader, String> log = (Pair<BufferedReader, String>) session.getAttribute("log_buffer");
+      session.removeAttribute("log_buffer");
 	%>
-	<div id="wrapper">
-		<nav class="navbar navbar-default top-navbar" role="navigation">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse"
-					data-target=".sidebar-collapse">
-					<span class="sr-only">Toggle navigation</span> <span
-						class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="index.jsp">Sinapsi</a>
-			</div>
+    <div class="wrapper">
 
-			<ul class="nav navbar-top-links navbar-right">
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#" aria-expanded="false"> <%=email%>
-				</a>
-					<ul class="dropdown-menu dropdown-user">
-						<li class="divider"></li>
-						<li><a href="web_logout"><i class="fa fa-sign-out fa-fw"></i>
-								Logout</a></li>
-					</ul> <!-- /.dropdown-user --></li>
-			</ul>
-		</nav>
+      <header class="main-header">
+        <!-- Logo -->
+        <a href="index.jsp" class="logo">
+          
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini"><img src="dist/img/white_cog.png" height="34px" width="34px"></span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg"><img src="dist/img/white_cog.png" height="38px" width="38px"></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
 
-		<nav class="navbar-default navbar-side" role="navigation">
-			<div class="sidebar-collapse">
-				<ul class="nav" id="main-menu">
+              <!-- User Account: style can be found in dropdown.less -->
+              <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <img src="dist/img/user2-160x160.png" class="user-image" alt="User Image">
+                  <span class="hidden-xs">Username</span>
+                </a>
+                <ul class="dropdown-menu">
+                  <!-- User image -->
+                  <li class="user-header">
+                    <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
+                    <p>
+                       <%=email%>
+                    </p>
+                  </li>
+                  <!-- Menu Body -->
+                  <li class="user-body">
+                    <div class="col-xs-4 text-center">
+                      <a href="#"></a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Macros</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="#"></a>
+                    </div>
+                  </li>
+                  <!-- Menu Footer-->
+                  <li class="user-footer">
+                    <div class="pull-left">
+                      <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                    <div class="pull-right">
+                      <a href="web_logout" class="btn btn-default btn-flat">Sign out</a>
+                    </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <div class="user-panel">
+            <div class="pull-left image">
+              <img src="dist/img/user2-160x160.png" class="img-circle" alt="User Image">
+            </div>
+            <div class="pull-left info">
+              <p>Username</p>
+              <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+            </div>
+          </div>
+      
+          <!-- search form -->
+          <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu">
+            <li class="header">Main Navigation</li>
+            <li class="active treeview">
+              <a href="dashboard">
+                <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
+              </a>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-pie-chart"></i>
+                <span>Charts</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="web_charts"> Server Load</a></li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-laptop"></i>
+                <span>Devices</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                <li><a href="web_devices"> Connected</a></li>
+              </ul>
+            </li>
+          
+            <li class="treeview">
+              <a href="web_macro_editor">
+                <i class="fa fa-edit"></i> <span>Macro Editor</span>
+              </a>
+            </li>
+          
+            <li  class="treeview">
+              <a href="web_macro_manager">
+                <i class="fa fa-wrench"></i> <span>Macro Manager</span>
+              </a>
+            </li>
+          
+           <li  class="treeview">
+              <a href="#">
+                <i class="fa fa-files-o"></i> <span>Logs</span>
+                <i class="fa fa-angle-left pull-right"></i>
+              </a>
+              <ul class="treeview-menu">
+                	<li><a href="web_log?type=tomcat">Tomcat</a></li>
+                    <li><a href="web_log?type=catalina">Catalina</a></li>
+				    <li><a href="web_log?type=db">Database</a></li>
+				    <li><a href="web_log?type=ws">WebSocket</a></li>
+                    <li><a href="web_log?type=webs">Web Service</a></li>
+               </ul>
+            </li>
+            <li class="treeview">
+                <a href="#"><i class="fa fa-book"></i> <span>Help</span>
+                 <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                
+                <ul class="treeview-menu">
+                   <li><a href="#"> Getting Started</a></li>
+                   <li><a href="#"> Contact</a></li>
+                   <li><a href="#"> About</a></li>
+                </ul>
+            </li>
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
 
-					<li><a href="dashboard"><i class="fa fa-dashboard"></i>
-							Dashboard</a></li>
-					<%
-            if (role == "admin") {
-          %>
-					<li><a href="web_charts"><i class="fa fa-bar-chart-o"></i>
-							Charts</a></li>
-					<li><a href="web_clients"><i class="fa fa-sitemap"></i>
-							Clients Connected </a></li>
-					<%
-            }
-					%>
-					<li><a href="web_macro_manager"><i class="fa fa-wrench"></i>
-							Macro Manager </a></li>
-					<li><a href="web_macro_editor"><i class="fa fa-edit"></i>
-							Macro Editor </a></li>
-					<li><a href="web_devices"><i class="fa fa-desktop"></i>
-              Devices </a></li>
-					<%
-            if (role == "admin") {
-          %>
-					<li><a href="#"><i class="glyphicon glyphicon-cog"></i>
-							Engine <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="web_log?type=actionlog">Log</a></li>
-						</ul></li>
-					<li><a class="active-menu" href="#"><i
-							class="fa fa-fw fa-file"></i> Log <span class="fa arrow"></span></a>
-						<ul class="nav nav-second-level">
-							<li><a href="web_log?type=tomcat">Tomcat</a></li>
-							<li><a href="web_log?type=catalina">Catalina</a></li>
-							<li><a href="web_log?type=db">Database</a></li>
-							<li><a href="web_log?type=ws">WebSocket</a></li>
-							<li><a href="web_log?type=webs">Web Service</a></li>
-						</ul></li>
-						<%
-              }
-						%>
-				</ul>
-			</div>
-		</nav>
-
-		<div id="page-wrapper">
-			<div id="page-inner">
-				<%
-				  if(role == "user") {
-				%>
-				<div class="row">
-					<div class="col-md-6">
-						<h1 class="page-header">
-							Sinapsi <small>Log</small>
-						</h1>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md-12">
-						<div class="panel panel-default">
-							<div class="panel-heading">Messages</div>
-							<div class="panel-body">
-								<div class="alert alert-danger">
-									You need <strong>administration</strong> permisison to see this
-									page.
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<%
-			  } if(role == "admin") {
-			%>
-			<div class="row">
-				<div class="col-md-6">
-					<h1 class="page-header">
-						<%=log.getSecond()%>
-						<small>Log</small>
-					</h1>
-				</div>
-		
-				<form method="get" action="web_log">
-					<div class="col-lg-6">
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Logs
+            <small><%=log.getSecond()%></small>
+          </h1>
+          
+             <form method="get" action="web_log">
+					<div class="col-lg-6 pull-right">
 						<div class=input-group input-group-lg>
 							<input name="filter_text" id="filter" type="text"
 								class="form-control"> <input name="type"
@@ -173,68 +240,111 @@
 						</script>
 					</div>
 				</form>
-			</div>
-			<!-- /. ROW  -->
-			<div class="row">
-				<div class="col-md-12">
-					<div id="tomcat_log"
-						style="height: 100%; overflow: scroll; border: 1px solid rgba(67, 67, 67, 0.36); padding-left: 4px;">
+        
+        </section>
+        <!-- Main content -->
+        <section class="content">
+          <!-- Small boxes (Stat box) -->
+          <div class="row">
+             <div class="col-md-12">
+				<div id="tomcat_log"
+				     style="height: 100%; overflow: scroll; border: 1px solid rgba(67, 67, 67, 0.36); padding-left: 4px;">
 
-						<%
-						  if(log.getFirst() != null) {
-						    String line;
-						      while((line = log.getFirst().readLine()) != null) {
-						%>
-						"<%=line%>"<br>
-						<%
-						  }
-						  }
-						%>
-					</div>
+				   <%
+				      if(log.getFirst() != null) {
+				      String line;
+				      while((line = log.getFirst().readLine()) != null) {
+				    %>
+				    "<%=line%>"<br>
+				    <%
+				       }}
+				    %>
 				</div>
-			</div>
-		</div>
-		<script type="application/javascript">
-      $(document).ready(function() {
-        $('#tomcat_log').scrollTop($('#tomcat_log').height());
-      }          
-		</script>
-		<!-- /. return to top  -->
-		<a href="#" id="back-to-top" title="Back to top"
+             </div>
+          </div><!-- /.row -->
+
+        </section><!-- /.content -->
+          
+      </div><!-- /.content-wrapper -->
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+          <b> Antares</b> 1.0
+        </div>
+        <strong>Copyright &copy; Sinapsi 2015</strong>
+      </footer>
+              	
+      <script type="application/javascript">
+          $(document).ready(function() {
+            $('#tomcat_log').scrollTop($('#tomcat_log').height());
+          }          
+      </script>
+      
+      <!-- /. return to top  -->
+      <a href="#" id="back-to-top" title="Back to top"
 			style="position: fixed; bottom: 20px; left: 20px; z-index: 9999; width: 32px; height: 32px; text-align: center; line-height: 30px; background: #eaeaea; color: #444; cursor: pointer; border: 0; border-radius: 2px; text-decoration: none; transition: opacity 0.2s ease-out; opacity: 0; -webkit-box-shadow: 0px 1px 16px 0px rgba(50, 50, 50, 1); -moz-box-shadow: 0px 1px 16px 0px rgba(50, 50, 50, 1); box-shadow: 0px 1px 16px 0px rgba(50, 50, 50, 1);">Top</a>
 
-		<script type="application/javascript">
-      if ($('#back-to-top').length) {
-        var scrollTrigger = 100, // px
-        backToTop = function () {
-          var scrollTop = $(window).scrollTop();
-          if (scrollTop > scrollTrigger) {
-            $('#back-to-top').css("opacity", "0.7");
-          } else {
-            $('#back-to-top').css("opacity", "0");
-          }
-        };
-        backToTop();
-        $(window).on('scroll', function () {
-          backToTop();
-        });
-        $('#back-to-top').on('click', function (e) {
-          e.preventDefault();
-          $('html,body').animate({
-            scrollTop: 0
-          }, 700);
-        });
-      } 
-		</script>
-		<%
-		  }
-		%>
-		Alpha 1.0 Version © 2015 Sinapsi
-	</div>
-	</div>
-	<script src="assets/js/jquery-1.10.2.js"></script>
-	<script src="assets/js/bootstrap.min.js"></script>
-	<script src="assets/js/jquery.metisMenu.js"></script>
-	<script src="assets/js/custom-scripts.js"></script>
-</body>
+      <script type="application/javascript">
+        if ($('#back-to-top').length) {
+           var scrollTrigger = 100, // px
+           backToTop = function () {
+            var scrollTop = $(window).scrollTop();
+            if (scrollTop > scrollTrigger) {
+              $('#back-to-top').css("opacity", "0.7");
+            } else {
+              $('#back-to-top').css("opacity", "0");
+            }
+           };
+           backToTop();
+           $(window).on('scroll', function () {
+             backToTop();
+           });
+           $('#back-to-top').on('click', function (e) {
+             e.preventDefault();
+             $('html,body').animate({
+               scrollTop: 0
+             }, 700);
+           });
+         } 
+       </script>
+      <div class="control-sidebar-bg"></div>
+    </div><!-- ./wrapper -->
+
+    <!-- jQuery 2.1.4 -->
+    <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+      $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.4 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- Morris.js charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="plugins/morris/morris.min.js"></script>
+    <!-- Sparkline -->
+    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="plugins/knob/jquery.knob.js"></script>
+    <!-- daterangepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datepicker -->
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="dist/js/pages/dashboard.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="dist/js/demo.js"></script>
+  </body>
 </html>
