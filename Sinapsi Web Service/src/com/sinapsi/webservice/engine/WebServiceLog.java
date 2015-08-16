@@ -11,6 +11,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.sinapsi.webservice.system.WebServiceConsts;
+
 /**
  * Utility Log class for Web Service
  * @author Aleph0
@@ -120,7 +122,7 @@ public class WebServiceLog {
             case FILE_OUT: {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
-                File file = new File("/var/log/sinapsi/web_service." + dateFormat.format(date) + ".log");
+                File file = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "web_service." + dateFormat.format(date) + ".log");
                 file.createNewFile();
                 file.setWritable(true, false);
                 file.setReadable(true, false);
@@ -130,7 +132,7 @@ public class WebServiceLog {
             case WEBSOCKET_FILE_OUT: {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
-                File file = new File("/var/log/sinapsi/web_socket." + dateFormat.format(date) + ".log");
+                File file = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "web_socket." + dateFormat.format(date) + ".log");
                 file.createNewFile();
                 file.setWritable(true, false);
                 file.setReadable(true, false);
@@ -140,7 +142,7 @@ public class WebServiceLog {
             case SERVLET_CONTEXT_FILE_OUT: {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
-                File file = new File("/var/log/sinapsi/servlet_context." + dateFormat.format(date) + ".log");
+                File file = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "servlet_context." + dateFormat.format(date) + ".log");
                 file.createNewFile();
                 file.setWritable(true, false);
                 file.setReadable(true, false);
@@ -150,7 +152,7 @@ public class WebServiceLog {
             case ACTION_LOG_FILE: {
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = new Date();
-                File file = new File("/var/log/sinapsi/action_log." + dateFormat.format(date) + ".log");
+                File file = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "action_log." + dateFormat.format(date) + ".log");
                 file.createNewFile();
                 file.setWritable(true, false);
                 file.setReadable(true, false);

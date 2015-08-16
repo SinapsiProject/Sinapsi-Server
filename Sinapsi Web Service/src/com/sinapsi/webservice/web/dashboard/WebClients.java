@@ -32,6 +32,7 @@ public class WebClients extends HttpServlet {
     */
    @Override
    public void init(ServletConfig config) throws ServletException {
+	   super.init(config);
 	   userManager = (UserDBManager) getServletContext().getAttribute("users_db");
 	   
 	   try {

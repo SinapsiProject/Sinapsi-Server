@@ -22,6 +22,7 @@ import com.sinapsi.model.UserInterface;
 import com.sinapsi.webservice.db.EngineDBManager;
 import com.sinapsi.webservice.db.UserDBManager;
 import com.sinapsi.webservice.engine.WebServiceEngine;
+import com.sinapsi.webservice.system.WebServiceConsts;
 import com.sinapsi.webservice.websocket.Server;
 
 /**
@@ -89,7 +90,7 @@ public class DashboardServlet extends HttpServlet {
             // server requestes
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             Date date = new Date();
-            String dayliLog = "/var/log/tomcat7/localhost_access_log." + dateFormat.format(date) + ".txt";
+            String dayliLog = WebServiceConsts.TOMCAT_LOG_FOLDER + "localhost_access_log." + dateFormat.format(date) + ".txt";
             
             // count n of line in the dayli log (fastest way to count the number of
             // line. thanks: stackoverflow")

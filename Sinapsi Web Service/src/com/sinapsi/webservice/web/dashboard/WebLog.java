@@ -21,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import com.sinapsi.model.UserInterface;
 import com.sinapsi.utils.Pair;
 import com.sinapsi.webservice.db.UserDBManager;
+import com.sinapsi.webservice.system.WebServiceConsts;
 
 /**
  * Servlet implementation class WebLog
@@ -88,20 +89,20 @@ public class WebLog extends HttpServlet {
             try {
                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                Date date = new Date();
-               String dayliLog = "/var/log/tomcat7/localhost_access_log."
+               String dayliLog = WebServiceConsts.TOMCAT_LOG_FOLDER + "localhost_access_log."
                      + dateFormat.format(date) + ".txt";
 
                // filter enabled
                if (dateFilter != "" && dateFilter != null) {
                   // check if exist the file
-                  File f = new File("/var/log/tomcat7/localhost_access_log."
+                  File f = new File(WebServiceConsts.TOMCAT_LOG_FOLDER + "localhost_access_log."
                         + dateFilter + ".txt");
 
                   if (f.exists()) {
-                     dayliLog = "/var/log/tomcat7/localhost_access_log."
+                     dayliLog =  WebServiceConsts.TOMCAT_LOG_FOLDER + "localhost_access_log."
                            + dateFilter + ".txt";
                   } else {
-                     dayliLog = "/var/log/sinapsi/empty_file.log";
+                     dayliLog =  WebServiceConsts.SINAPSI_LOG_FOLDER +"empty_file.log";
                   }
 
                }
@@ -127,7 +128,7 @@ public class WebLog extends HttpServlet {
          case "catalina":
             try {
                FileInputStream fstram = new FileInputStream(new File(
-                     "/var/log/tomcat7/catalina.out"));
+            		   WebServiceConsts.TOMCAT_LOG_FOLDER + "catalina.out"));
                Pair<BufferedReader, String> brrs = (Pair<BufferedReader, String>) session
                      .getAttribute("log_buffer");
                BufferedReader brr = null;
@@ -148,7 +149,7 @@ public class WebLog extends HttpServlet {
          case "db":
             try {
                FileInputStream fstram = new FileInputStream(new File(
-                     "/var/log/postgresql/postgresql-9.1-main.log"));
+            		   WebServiceConsts.DB_LOG_FOLDER + "postgresql-9.1-main.log"));
                Pair<BufferedReader, String> brrs = (Pair<BufferedReader, String>) session
                      .getAttribute("log_buffer");
                BufferedReader brr = null;
@@ -170,20 +171,20 @@ public class WebLog extends HttpServlet {
             try {
                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                Date date = new Date();
-               String dayliLog = "/var/log/sinapsi/web_socket."
+               String dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "web_socket."
                      + dateFormat.format(date) + ".log";
 
                // filter enabled
                if (dateFilter != "") {
                   // check if exist the file
-                  File f = new File("/var/log/sinapsi/web_socket." + dateFilter
+                  File f = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "web_socket." + dateFilter
                         + ".log");
 
                   if (f.exists()) {
-                     dayliLog = "/var/log/sinapsi/web_socket." + dateFilter
+                     dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "web_socket." + dateFilter
                            + ".log";
                   } else {
-                     dayliLog = "/var/log/sinapsi/empty_file.log";
+                     dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "empty_file.log";
                   }
                }
 
@@ -209,20 +210,20 @@ public class WebLog extends HttpServlet {
             try {
                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                Date date = new Date();
-               String dayliLog = "/var/log/sinapsi/web_service."
+               String dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "web_service."
                      + dateFormat.format(date) + ".log";
 
                // filter enabled
                if (dateFilter != "") {
                   // check if exist the file
-                  File f = new File("/var/log/sinapsi/web_service."
+                  File f = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "web_service."
                         + dateFilter + ".log");
 
                   if (f.exists()) {
-                     dayliLog = "/var/log/sinapsi/web_service." + dateFilter
+                     dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "web_service." + dateFilter
                            + ".log";
                   } else {
-                     dayliLog = "/var/log/sinapsi/empty_file.log";
+                     dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "empty_file.log";
                   }
                }
 
@@ -247,20 +248,20 @@ public class WebLog extends HttpServlet {
             try {
                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                Date date = new Date();
-               String dayliLog = "/var/log/sinapsi/action_log."
+               String dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "action_log."
                      + dateFormat.format(date) + ".log";
 
                // filter enabled
                if (dateFilter != "") {
                   // check if exist the file
-                  File f = new File("/var/log/sinapsi/action_log." + dateFilter
+                  File f = new File(WebServiceConsts.SINAPSI_LOG_FOLDER + "action_log." + dateFilter
                         + ".log");
 
                   if (f.exists()) {
-                     dayliLog = "/var/log/sinapsi/action_log." + dateFilter
+                     dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "action_log." + dateFilter
                            + ".log";
                   } else {
-                     dayliLog = "/var/log/sinapsi/empty_file.log";
+                     dayliLog = WebServiceConsts.SINAPSI_LOG_FOLDER + "empty_file.log";
                   }
                }
 

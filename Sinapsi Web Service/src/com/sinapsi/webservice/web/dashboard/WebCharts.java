@@ -25,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import com.sinapsi.model.UserInterface;
 import com.sinapsi.utils.Pair;
 import com.sinapsi.webservice.db.UserDBManager;
+import com.sinapsi.webservice.system.WebServiceConsts;
 
 /**
  * Servlet implementation class WebCharts
@@ -39,7 +40,7 @@ public class WebCharts extends HttpServlet {
    public void init(ServletConfig config) throws ServletException {
 	   super.init(config);
 	   // getting number of log files
-	   File folder = new File("/var/log/tomcat7");
+	   File folder = new File(WebServiceConsts.TOMCAT_LOG_FOLDER);
 	   listOfFiles = folder.listFiles();
 	   userManager = (UserDBManager) getServletContext().getAttribute("users_db");
    }
