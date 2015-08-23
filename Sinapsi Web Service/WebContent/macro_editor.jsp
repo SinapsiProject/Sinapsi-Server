@@ -140,7 +140,7 @@
           <!-- sidebar menu: : style can be found in sidebar.less -->
           <ul class="sidebar-menu">
             <li class="header">Main Navigation</li>
-            <li class="active treeview">
+            <li class="treeview">
               <a href="dashboard">
                 <i class="fa fa-dashboard"></i> <span>Dashboard</span></i>
               </a>
@@ -166,7 +166,7 @@
               </ul>
             </li>
           
-            <li class="treeview">
+            <li class="active treeview">
               <a href="web_macro_editor">
                 <i class="fa fa-edit"></i> <span>Macro Editor</span>
               </a>
